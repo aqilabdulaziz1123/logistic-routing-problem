@@ -37,31 +37,45 @@ def jaraklurus(a,b,nodes):
     y = abs(nodes[a][1] - nodes[b][1])
     return x*x + y*y
 
+
+
 def jarakjalanan(a,b,edges,nodes):  
+    # print(a)
     # print(a,b)
     # print("here")
     if a == b:
         return -1,""
     frontier = []
-    now = a
     visited = set([])
+    now = a
     route = str(now)
     cost = 0
     while now != b and cost != -1:
         visited.add(now)
-        mini = now
+        mini = -1
         for neighbours in edges[now].keys():
+            lanjut = False
+            if neighbours == b:
+                # print(a,neighbours,mini)
+                # print("done")
+                cost += edges[now][neighbours]
+                route += "," + str(neighbours) 
+                return cost,route
             # print(now, neighbours)
             if neighbours not in visited:
+                if mini == -1:
+                    mini = neighbours
                 if (jaraklurus(mini,b,nodes) > jaraklurus(neighbours,b,nodes)):
+                    # print("new",mini)
                     mini = neighbours 
-        if mini != now:          
+        if mini != -1:          
             cost += edges[now][mini]
         else:
-            for neighbours in edges[now].keys():
-                if neighbours not in visited:
-                    if jarakjalanan(neighbours,b,edges,nodes) != -1:
-                        mini = neighbours
+            return -1, ""
+            # for neighbours in edges[now].keys():
+            #     if neighbours not in visited:
+            #         if jarakjalanan(neighbours,b,edges,nodes)[0] != -1:
+            #             mini = neighbours
         now = mini
         route += "," + str(now)
 
@@ -269,7 +283,7 @@ def visualize(arrnode, hasil, nodes, edges):
     text.draw(win)
 
     for j,route in enumerate(routes):
-        text = Text(Point(650,60+30*((j+1)%6)),f"Kurir {j+1}, rute = {'-'.join([str(i) for i in route])}")
+        text = Text(Point(300,60+30*((j+1)%6)),f"Kurir {j+1}, rute = {'-'.join([str(i) for i in route])}")
         text.setFill(colors[j%6])
         text.draw(win)
         for i in range(len(route)-1):
@@ -283,7 +297,8 @@ def visualize(arrnode, hasil, nodes, edges):
             # node = Circle(pos1,2)
             if (route[i+1] != route[0]):
                 text = Text(pos2,f"{route[i+1]}")
-                text.setFill('red')
+                if (route[i+1] in arrnode): 
+                    text.setFill('red')
                 text.draw(win)
             node2 = Circle(pos2,0.5)
             if route[i+1] in arrnode:
@@ -300,7 +315,7 @@ if __name__ == '__main__':
     nodes,edges = load('nodes.txt','edges.txt')
     # x = reduceMatrix(matriksjarakjalan([6,5,8,9],nodes,edges))
     # printMatriks(x[0])
-
+    print(jarakjalanan(9,8,edges,nodes))
     kantor = int(input("Masukkan node kantor : "))
     kurir = int(input("Masukkan jumlah kurir : "))
     nodeses = input("Masukkan list node, dipisahkan , : ")
