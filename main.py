@@ -1,6 +1,7 @@
 import time
 from graphics import *
 import copy
+import sys
 
 def load(filename1,filename2):
     print("loading nodes.....")
@@ -312,16 +313,21 @@ def visualize(arrnode, hasil, nodes, edges):
 
 
 if __name__ == '__main__':
-    nodes,edges = load('nodes.txt','edges.txt')
-    # x = reduceMatrix(matriksjarakjalan([6,5,8,9],nodes,edges))
-    # printMatriks(x[0])
-    # print(jarakjalanan(9,8,edges,nodes))
-    kantor = int(input("Masukkan node kantor : "))
-    kurir = int(input("Masukkan jumlah kurir : "))
-    nodeses = input("Masukkan list node, dipisahkan , : ")
-    arrnode = [int(i) for i in nodeses.split(',')]
-    arrsem = copy.deepcopy(arrnode)
-    arrsem.append(kantor)
-    x = reduceMatrix(matriksjarakjalan(arrsem,nodes,edges))
-    visualize(arrnode,multiAgent(arrnode,kantor,kurir,x,edges,nodes),nodes,edges)
+    argv = sys.argv
+    if len(argv) < 2:
+        print("USAGE : py main.py [nodesfile] [edgesfile]")
+    else:
+        # print(argv)
+        nodes,edges = load(argv[1],argv[2])
+        # x = reduceMatrix(matriksjarakjalan([6,5,8,9],nodes,edges))
+        # printMatriks(x[0])
+        # print(jarakjalanan(9,8,edges,nodes))
+        kantor = int(input("Masukkan node kantor : "))
+        kurir = int(input("Masukkan jumlah kurir : "))
+        nodeses = input("Masukkan list node, dipisahkan , : ")
+        arrnode = [int(i) for i in nodeses.split(',')]
+        arrsem = copy.deepcopy(arrnode)
+        arrsem.append(kantor)
+        x = reduceMatrix(matriksjarakjalan(arrsem,nodes,edges))
+        visualize(arrnode,multiAgent(arrnode,kantor,kurir,x,edges,nodes),nodes,edges)
 
