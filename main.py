@@ -315,7 +315,7 @@ if __name__ == '__main__':
     nodes,edges = load('nodes.txt','edges.txt')
     # x = reduceMatrix(matriksjarakjalan([6,5,8,9],nodes,edges))
     # printMatriks(x[0])
-    print(jarakjalanan(9,8,edges,nodes))
+    # print(jarakjalanan(9,8,edges,nodes))
     kantor = int(input("Masukkan node kantor : "))
     kurir = int(input("Masukkan jumlah kurir : "))
     nodeses = input("Masukkan list node, dipisahkan , : ")
